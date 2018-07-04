@@ -9,13 +9,6 @@ public class Grid
     public const char CrossRoadTile = 'x';
     public const char DeliveryTile = 'O';
 
-    public enum TileType {
-        CrossRoad,
-        Waypoint,
-        DeliveryStation,
-        OutOfBounds
-    }
-
     public int Width { get; private set; }
     public int Height { get; private set; }
     char[,] grid;
@@ -29,46 +22,46 @@ public class Grid
         isTileUsed = new bool[Height, Width];
     }
 
-    public bool IsTileFree(int x, int y)
+    public bool IsTileFree(Position p)
     {
-        if (x < 0 || y < 0 || x >= Width || y >= Height)
+        if (p.x < 0 || p.y < 0 || p.x >= Width || p.y >= Height)
             return false;
 
-        return grid[y, x] != DeliveryTile && isTileUsed[y, x] == false;
+        return grid[p.y, p.x] != DeliveryTile && isTileUsed[p.y, p.x] == false;
     }
 
-    public void RemoveRobot(int x, int y)
+    public void RemoveRobot(Position p)
     {
-        if (!isTileUsed[y, x])
+        if (!isTileUsed[p.y, p.x])
         {
             Debug.Log("Already removed");
         }
-        isTileUsed[y, x] = false;
+        isTileUsed[p.y, p.x] = false;
     }
 
-    public void PlaceRobot(int x, int y)
+    public void PlaceRobot(Position p)
     {
-        if (isTileUsed[y, x])
+        if (isTileUsed[p.y, p.x])
         {
            // Debug.Log("Collision");
         }
-        isTileUsed[y, x] = true;
+        isTileUsed[p.y, p.x] = true;
     }
 
-    public TileType GetTileType(int x, int y)
+    public PositionType GetTileType(Position p)
     {
-        if (x < 0 || y < 0 || x >= Width || y >= Height)
-            return TileType.OutOfBounds;
+        if (p.x < 0 ||p.y < 0 || p.x >= Width || p.y >= Height)
+            return PositionType.BLOCKED;
 
-        switch (grid[y, x])
+        switch (grid[p.y, p.x])
         {
             case CrossRoadTile:
-                return TileType.CrossRoad;
+                return PositionType.CROSSROADS;
             case WaypointTile:
-                return TileType.Waypoint;
+                return PositionType.WAYPOINT;
             case DeliveryTile:
-                return TileType.DeliveryStation;
+                return PositionType.STATION;
         }
-        throw new System.Exception(string.Format("Unkown tile type: {0}", grid[y, x]));
+        throw new System.Exception(string.Format("Unkown tile type: {0}", grid[p.y, p.x]));
     }
 }

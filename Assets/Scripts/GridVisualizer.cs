@@ -23,16 +23,16 @@ public class GridVisualizer : MonoBehaviour {
         {
             for (int y = 0; y < grid.Height; y++)
             {
-                var tile = grid.GetTileType(x, y);
+                var tile = grid.GetTileType(new Position(x, y));
                 switch (tile)
                 {
-                    case Grid.TileType.DeliveryStation:
+                    case PositionType.STATION:
                         Instantiate<GameObject>(deliveryStation, new Vector3(x, 0, y), Quaternion.identity, tileRoot);
                         break;
-                    case Grid.TileType.Waypoint:
+                    case PositionType.WAYPOINT:
                         Instantiate<GameObject>(waypointTile, new Vector3(x, 0, y), Quaternion.identity, tileRoot);
                         break;
-                    case Grid.TileType.CrossRoad:
+                    case PositionType.CROSSROADS:
                         Instantiate<GameObject>(crossRoadTile, new Vector3(x, 0, y), Quaternion.identity, tileRoot);
                         break;
                 }
