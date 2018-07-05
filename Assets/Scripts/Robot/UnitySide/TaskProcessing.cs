@@ -6,6 +6,8 @@ using System.Threading;
 public class TaskProcessing : MonoBehaviour
 {
     public RobotMotor motor;
+    public Transform manualGoal;
+    public bool useManualGoal;
 
     Sensor sensor;
     Actors actors;
@@ -13,8 +15,10 @@ public class TaskProcessing : MonoBehaviour
 
     private SensorData data;
     private volatile bool runSensors = true;
-    private bool nextMoveHome = false;
+    private int state = 3;
     private System.Random random;
+    private Position currentTarget;
+    private volatile bool requireNewSensorData;
 
     private void Start()
     {
@@ -35,41 +39,63 @@ public class TaskProcessing : MonoBehaviour
         while (runSensors)
         {
             driveSystem.SensorEvent(data);
-            Thread.Sleep(100);
+            requireNewSensorData = true;
+            do
+            {
+                Thread.Sleep(40);
+            } while (requireNewSensorData);
         }
     }
 
     public void Arrived()
     {
-        if (nextMoveHome)
+        if (state == 0)
         {
             driveSystem.Unload();
+        }
+        else if (state == 1)
+        {
+            driveSystem.DriveTo(motor.StartPos);
+            state = 2;
         }
         else
         {
             motor.LoadParcel();
-            nextMoveHome = true;
+            state = 0;
             Position p;
-            do
+            if (useManualGoal)
             {
-                p.x = random.Next(0, GridLoader.grid.Width / 3 - 3);
-                p.y = random.Next(0, GridLoader.grid.Height / 3);
-                p.x = 5 + p.x * 3;
-                p.y = 3 + p.y * 3;
-            } while (!GridLoader.grid.IsTileFree(p));
+                p = new Position(Mathf.RoundToInt(manualGoal.position.x), Mathf.RoundToInt(manualGoal.position.z));
+            }
+            else
+            {
+                do
+                {
+                    p.x = random.Next(0, GridLoader.grid.Width / 3 - 3);
+                    p.y = random.Next(0, GridLoader.grid.Height / 3 - 3);
+                    p.x = 5 + p.x * 3;
+                    p.y = 6 + p.y * 3;
+                } while (!GridLoader.grid.IsTileFree(p));
+            }
+            currentTarget = p;
             driveSystem.DriveTo(p);
         }
     }
 
     public void Unloaded()
     {
-        driveSystem.DriveTo(motor.StartPos);
-        nextMoveHome = false;
+        driveSystem.DriveTo(motor.StartPos - new Position(1, 0));
+        state = 1;
     }
 
     private void Update()
     {
-        data = sensor.Sense();
+        if (requireNewSensorData)
+        {
+            requireNewSensorData = false;
+            data = sensor.Sense();
+        }
+        Debug.DrawLine(transform.position, new Vector3(currentTarget.x, 0, currentTarget.y));
     }
 
     private void OnApplicationQuit()

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SensorData
 {
+    public bool usedFlag;
     Position pos;
     PositionType pType;
     Orientation or;
