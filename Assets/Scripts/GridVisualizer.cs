@@ -17,6 +17,21 @@ public class GridVisualizer : MonoBehaviour {
         VisualizeWorld();
     }
 
+    private void Update()
+    {
+        for (int x = 0; x < grid.Width; x++)
+        {
+            for (int y = 0; y < grid.Height; y++)
+            {
+                if (!grid.IsTileFree(new Position(x, y)))
+                {
+                    Vector3 v = new Vector3(x, 0, y);
+                    Debug.DrawLine(v - new Vector3(0.5f, 0, 0.5f), v + new Vector3(0.5f, 0, 0.5f), Color.red);
+                }
+            }
+        }
+    }
+
     private void VisualizeWorld()
     {
         for (int x = 0; x < grid.Width; x++)

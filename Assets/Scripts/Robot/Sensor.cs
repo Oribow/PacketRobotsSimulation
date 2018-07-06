@@ -15,6 +15,7 @@ public class Sensor
 
     public SensorData Sense()
     {
+
         return new SensorData(
             Pos(),
             PosType(),
@@ -68,13 +69,13 @@ public class Sensor
         }
         else
         {
-            return !grid.IsTileFree(motor.Pos + new Position(3, -1) * motor.Orientation);
+            return !grid.IsTileFree(motor.Pos + new Position(-1, 3) * motor.Orientation);
         }
     }
 
     public bool BlockedWaypointLeft()
     {
-        return !grid.IsTileFree(motor.Pos + new Position(1, -2) * motor.Orientation);
+        return !grid.IsTileFree(motor.Pos + new Position(-2, 1) * motor.Orientation);
     }
 
     public bool BlockedWaypointRight()
@@ -85,7 +86,7 @@ public class Sensor
         }
         else
         {
-            return !grid.IsTileFree(motor.Pos + new Position(2, 1) * motor.Orientation);
+            return !grid.IsTileFree(motor.Pos + new Position(1, 2) * motor.Orientation);
         }
     }
 
@@ -99,6 +100,8 @@ public class Sensor
                 for (int r = -1; r <= 1; r++)
                 {
                     if (f == r && f == 0)
+                        continue;
+                    if (f == 1 && r == -1)
                         continue;
 
                     Position p = motor.Pos + new Position(f, r) * motor.Orientation;
@@ -122,13 +125,13 @@ public class Sensor
             if (!grid.IsTileFree(p))
                 return true;
 
-            if (!grid.IsTileFree(motor.Pos + new Position(2, 0) * motor.Orientation))
+            if (!grid.IsTileFree(motor.Pos + new Position(0, 2) * motor.Orientation))
                 return true;
 
-            if (!grid.IsTileFree(motor.Pos + new Position(1, -1) * motor.Orientation))
-                return true;
+            //if (!grid.IsTileFree(motor.Pos + new Position(-1, 1) * motor.Orientation))
+            //    return true;
 
-            if (!grid.IsTileFree(motor.Pos + new Position(2, -1) * motor.Orientation))
+            if (!grid.IsTileFree(motor.Pos + new Position(-1, 2) * motor.Orientation))
                 return true;
 
         }

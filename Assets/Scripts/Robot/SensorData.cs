@@ -2,19 +2,32 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class SensorData
 {
+    [HideInInspector]
     public bool usedFlag;
+    [SerializeField]
     Position pos;
+    [SerializeField]
     PositionType pType;
+    [SerializeField]
     Orientation or;
+    [SerializeField]
     bool blockedFront;
+    [SerializeField]
     bool blockedLeft;
+    [SerializeField]
     bool blockedRight;
+    [SerializeField]
     bool blockedWaypointAhead;
+    [SerializeField]
     bool blockedWaypointLeft;
+    [SerializeField]
     bool blockedWaypointRight;
+    [SerializeField]
     bool blockedCrossroadAhead;
+    [SerializeField]
     bool blockedCrossroadRight;
 
     public SensorData(Position pos,

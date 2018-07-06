@@ -25,9 +25,9 @@ public class Grid
     public bool IsTileFree(Position p)
     {
         if (p.x < 0 || p.y < 0 || p.x >= Width || p.y >= Height)
-            return false;
+            return true;
 
-        return grid[p.y, p.x] != DeliveryTile && isTileUsed[p.y, p.x] == false;
+        return /*grid[p.y, p.x] != DeliveryTile &&*/ isTileUsed[p.y, p.x] == false;
     }
 
     public void RemoveRobot(Position p)

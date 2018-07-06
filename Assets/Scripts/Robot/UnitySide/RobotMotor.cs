@@ -54,9 +54,9 @@ public class RobotMotor : MonoBehaviour
                 transform.position = Vector3.Lerp(new Vector3(Pos.x, 0, Pos.y), new Vector3(target.x, 0, target.y), timePast * speed);
                 if (timePast * speed >= 0.99f)
                 {
+                    grid.RemoveRobot(Pos);
                     Pos = target;
                     transform.position = new Vector3(Pos.x, 0, Pos.y);
-                    grid.RemoveRobot(Pos);
                     state = State.Idle;
                     callback.Invoke();
                 }

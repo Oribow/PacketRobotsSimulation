@@ -13,21 +13,25 @@ public class TaskProcessing : MonoBehaviour
     Actors actors;
     DriveSystem driveSystem;
 
-    private SensorData data;
+    public SensorData data;
     private volatile bool runSensors = true;
     private int state = 3;
     private System.Random random;
     private Position currentTarget;
+    private Position manualTarget;
     private volatile bool requireNewSensorData;
 
     private void Start()
     {
+        Statistics.numRoboter++;
         actors = new Actors(motor);
         sensor = new Sensor(motor);
         driveSystem = new DriveSystem(actors, this);
         actors.aInfs = driveSystem;
         data = sensor.Sense();
-        random = new System.Random();
+        random = new System.Random(motor.Pos.x * motor.Pos.y);
+        if (manualGoal != null)
+            manualTarget = new Position(Mathf.RoundToInt(manualGoal.position.x), Mathf.RoundToInt(manualGoal.position.z));
 
         Thread t = new Thread(SensorEventSender);
         t.Start();
@@ -65,7 +69,7 @@ public class TaskProcessing : MonoBehaviour
             Position p;
             if (useManualGoal)
             {
-                p = new Position(Mathf.RoundToInt(manualGoal.position.x), Mathf.RoundToInt(manualGoal.position.z));
+                p = manualTarget;
             }
             else
             {
@@ -86,8 +90,10 @@ public class TaskProcessing : MonoBehaviour
     {
         driveSystem.DriveTo(motor.StartPos - new Position(1, 0));
         state = 1;
+        Statistics.PackageDeliverd();
     }
 
+    public DriveSystem.State prevState;
     private void Update()
     {
         if (requireNewSensorData)
@@ -95,7 +101,18 @@ public class TaskProcessing : MonoBehaviour
             requireNewSensorData = false;
             data = sensor.Sense();
         }
-        Debug.DrawLine(transform.position, new Vector3(currentTarget.x, 0, currentTarget.y));
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        if (prevState != driveSystem.state)
+        {
+            Debug.Log(driveSystem.state.ToString());
+            prevState = driveSystem.state;
+        }
+        Gizmos.DrawLine(transform.position, new Vector3(currentTarget.x, 0, currentTarget.y));
+        Gizmos.color = Color.blue;
+        Gizmos.DrawLine(transform.position, new Vector3(motor.StartPos.x, 0, motor.StartPos.y));
     }
 
     private void OnApplicationQuit()

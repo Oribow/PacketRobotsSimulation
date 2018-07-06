@@ -150,7 +150,7 @@ Transform:
   - {fileID: 4583990471124970}
   m_Father: {fileID: 4633915712436632}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -72.39673}
 --- !u!4 &4583990471124970
 Transform:
   m_ObjectHideFlags: 1
@@ -171,7 +171,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1018749802398472}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 1, y: 0, z: 2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4305913372258520}
@@ -347,6 +347,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   motor: {fileID: 114783126626998222}
+  manualGoal: {fileID: 0}
+  useManualGoal: 0
 --- !u!114 &114783126626998222
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -358,5 +360,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6be14e6b104769f43aeb5808dc8059c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 1
-  turnSpeed: 5
+  speed: 3
+  turnSpeed: 3
