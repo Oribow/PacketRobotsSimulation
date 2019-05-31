@@ -105,7 +105,7 @@ public class TaskProcessing : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        if (prevState != driveSystem.state)
+        if (driveSystem != null && prevState != driveSystem.state)
         {
             Debug.Log(driveSystem.state.ToString());
             prevState = driveSystem.state;

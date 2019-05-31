@@ -1,4 +1,11 @@
-It's a Unity 2018 project.
+# Description
+
+This project aims to simulate the behavoir of logistic robots in a warehouse.
+Similiar to this: <a href="http://www.youtube.com/watch?feature=player_embedded&v=cLVCGEmkJs0
+" target="_blank"><img src="http://img.youtube.com/vi/cLVCGEmkJs0/0.jpg" 
+alt="Amazon Warehouse Robots : Mind Blowing Video" width="240" height="180" border="10" /></a>
+
+Specifications where given as an assignment for a university course.
 
 **Important files:** RobotDriver (it implements the driving system)
 
@@ -49,3 +56,9 @@ RoboTester does this. No further actions required.
 # What does RoboTester do?
 
 Sends the robot to a random target slot (a tile right above the slot). Unloads the package and tells the robot to drive back to it's home tile (the tile the robot started at). Repeat forever.
+
+# Screenshots
+
+![alt text](Screenshot1.png "Screenshot 1")
+![alt text](Screenshot2.png "Screenshot 2")
+![alt text](Screenshot3.png "Screenshot 3")
